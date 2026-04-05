@@ -295,6 +295,25 @@
       color: var(--muted-text);
     }
 
+    .placement-support-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 14px;
+      margin-top: 10px;
+    }
+
+    .placement-support-item {
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid var(--card-border);
+      color: var(--text);
+      font-family: "Poppins", sans-serif;
+      font-size: 0.98rem;
+      font-weight: 600;
+      line-height: 1.5;
+    }
+
     .contact-list {
       display: grid;
       gap: 14px;
@@ -318,9 +337,17 @@
       font-size: 1rem;
     }
 
-    .contact-item span {
+    .contact-item span,
+    .contact-item a.contact-link {
       color: var(--muted-text);
       word-break: break-word;
+      text-decoration: none;
+    }
+
+    .contact-item a.phone-link {
+      color: var(--text);
+      word-break: break-word;
+      text-decoration: none;
     }
 
     .contact-icon {
@@ -844,7 +871,7 @@
           <strong>Computers & Basics</strong>
           <img
             class="training-item-image"
-            src="file:///C:/Data/v2teksol/cloud-computing.png"
+            src="https://raw.githubusercontent.com/v2teksol-svs/v2teskol-corporate-official/development/cloud-computing.png"
             alt="Cloud computing illustration"
           />
           <p>Computer fundamentals, operating systems, Networking, and essential communications with systems.</p>
@@ -861,7 +888,7 @@
           <div class="training-heading-with-logo">
             <img
               class="training-heading-logo"
-              src="file:///C:/Data/v2teksol/Microsoft_Azure.svg.png"
+              src="https://raw.githubusercontent.com/v2teksol-svs/v2teskol-corporate-official/development/Microsoft_Azure.svg.png"
               alt="Microsoft Azure logo"
             />
             <strong>MICROSOFT AZURE</strong>
@@ -893,7 +920,7 @@
           <div class="training-heading-with-logo">
             <img
               class="training-heading-logo"
-              src="file:///C:/Data/v2teksol/Amazon_Web_Services_Logo.svg.png"
+              src="https://raw.githubusercontent.com/v2teksol-svs/v2teskol-corporate-official/development/Amazon_Web_Services_Logo.svg.png"
               alt="Amazon Web Services logo"
             />
             <strong>Amazon Web Services</strong>
@@ -915,7 +942,7 @@
           <div class="training-heading-with-logo">
             <img
               class="training-heading-logo"
-              src="file:///C:/Data/v2teksol/Google Cloud.svg"
+              src="https://raw.githubusercontent.com/v2teksol-svs/v2teskol-corporate-official/development/Google Cloud.svg"
               alt="Google Cloud logo"
             />
             <strong>Google Cloud (GCP)</strong>
@@ -1010,6 +1037,11 @@
         We support students and professionals with interview preparation, resume guidance,
         communication practice, and confidence-building for job opportunities.
       </p>
+      <div class="placement-support-list">
+        <div class="placement-support-item">Resume Building</div>
+        <div class="placement-support-item">Intervie Preperation</div>
+        <div class="placement-support-item">Technical Workshops</div>
+      </div>
       <div class="cta-row">
         <button class="cta-btn" onclick="openEnquiryForm()">
           Enquire Now
@@ -1069,15 +1101,17 @@
         </div>
         <div class="contact-item">
           <strong>Phone</strong>
-          <span>+91 83093 96620</span>
+          <a class="phone-link" href="https://wa.me/8309396620" target="_blank" rel="noopener noreferrer">+91 83093 96620</a>
         </div>
         <div class="contact-item">
-          <svg class="contact-icon" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <circle cx="16" cy="16" r="15" fill="#25D366" />
-            <path d="M23.6 18.8c-.3-.2-1.9-.9-2.1-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-.9 1.1-.2.2-.3.2-.6.1-.3-.2-1.3-.5-2.5-1.6-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.4.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5 0-.1-.7-1.7-1-2.3-.2-.5-.5-.5-.7-.5h-.6c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.1 0 1.2.9 2.4 1 2.6.1.2 1.8 2.8 4.4 3.9.6.3 1.1.5 1.5.6.6.2 1.2.2 1.7.1.5-.1 1.9-.8 2.1-1.6.3-.8.3-1.4.2-1.6-.1-.1-.3-.2-.6-.4z" fill="#ffffff"/>
-          </svg>
+          <a href="https://wa.me/8309396620" target="_blank" rel="noopener noreferrer" aria-label="Chat with us on WhatsApp">
+            <svg class="contact-icon" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <circle cx="16" cy="16" r="15" fill="#25D366" />
+              <path d="M23.6 18.8c-.3-.2-1.9-.9-2.1-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-.9 1.1-.2.2-.3.2-.6.1-.3-.2-1.3-.5-2.5-1.6-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.4.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5 0-.1-.7-1.7-1-2.3-.2-.5-.5-.5-.7-.5h-.6c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.1 0 1.2.9 2.4 1 2.6.1.2 1.8 2.8 4.4 3.9.6.3 1.1.5 1.5.6.6.2 1.2.2 1.7.1.5-.1 1.9-.8 2.1-1.6.3-.8.3-1.4.2-1.6-.1-.1-.3-.2-.6-.4z" fill="#ffffff"/>
+            </svg>
+          </a>
           <strong>WhatsApp</strong>
-          <span>+91 83093 96620</span>
+          <a class="contact-link" href="https://wa.me/8309396620" target="_blank" rel="noopener noreferrer">+91 83093 96620</a>
         </div>
       </div>
     </section>
