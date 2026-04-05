@@ -1,0 +1,6 @@
+services:
+  - type: static
+    name: v2teksol-official-website
+    env: static
+    buildCommand: echo "No build step required"
+    staticPublishPath: ./CoreSite
