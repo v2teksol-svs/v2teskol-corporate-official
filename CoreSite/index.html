@@ -968,6 +968,38 @@
       resize: vertical;
     }
 
+    .resume-upload {
+      display: grid;
+      gap: 10px;
+      padding: 16px;
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.62);
+      border: 1px solid rgba(61, 82, 160, 0.12);
+    }
+
+    .resume-upload-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .resume-upload input[type="file"] {
+      display: none;
+    }
+
+    .resume-upload-meta {
+      color: var(--ink-soft);
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    .resume-upload-name {
+      color: var(--deep);
+      font-weight: 700;
+      word-break: break-word;
+    }
+
     .form-actions {
       display: flex;
       flex-wrap: wrap;
@@ -1382,6 +1414,23 @@
             <textarea id="userMessage" name="message" placeholder="Write your message here" required></textarea>
           </div>
 
+          <div class="resume-upload">
+            <label for="resumeUpload">5. Resume (Optional)</label>
+            <div class="resume-upload-actions">
+              <button class="cta-btn secondary" type="button" onclick="triggerResumeUpload()">Share Resume</button>
+              <input
+                id="resumeUpload"
+                name="resume"
+                type="file"
+                accept=".pdf,.doc,.docx,.rtf,.txt,.png,.jpg,.jpeg"
+                onchange="handleResumeSelection(event)"
+              />
+            </div>
+            <div class="resume-upload-meta" id="resumeUploadStatus">
+              Select a resume to include with your enquiry. On supported mobile browsers this can be shared as an attachment through Gmail or your mail app.
+            </div>
+          </div>
+
           <div class="form-actions">
             <button class="cta-btn" type="submit">Submit</button>
             <button class="cta-btn secondary" type="button" onclick="closeEnquiryForm()">Close Form</button>
@@ -1534,6 +1583,8 @@
     const contactPanel = document.getElementById("contactPanel");
     const enquiryPanel = document.getElementById("enquiryPanel");
     const formNote = document.getElementById("formNote");
+    const resumeUpload = document.getElementById("resumeUpload");
+    const resumeUploadStatus = document.getElementById("resumeUploadStatus");
 
     function showMessage(text) {
       messageBox.textContent = text;
@@ -1645,6 +1696,25 @@
       }
     }
 
+    function triggerResumeUpload() {
+      resumeUpload.click();
+    }
+
+    function handleResumeSelection(event) {
+      const file = event.target.files && event.target.files[0];
+
+      if (!file) {
+        resumeUploadStatus.textContent = "Select a resume to include with your enquiry. On supported mobile browsers this can be shared as an attachment through Gmail or your mail app.";
+        return;
+      }
+
+      resumeUploadStatus.textContent = "Selected resume: ";
+      const fileName = document.createElement("span");
+      fileName.className = "resume-upload-name";
+      fileName.textContent = file.name;
+      resumeUploadStatus.appendChild(fileName);
+    }
+
     function getDeviceType() {
       const userAgent = navigator.userAgent || navigator.vendor || window.opera;
 
@@ -1659,17 +1729,19 @@
       return "desktop";
     }
 
-    function submitEnquiry(event) {
+    async function submitEnquiry(event) {
       event.preventDefault();
       const form = event.target;
       const fullName = form.fullName.value.trim();
       const email = form.email.value.trim();
       const mobile = form.mobile.value.trim() || "Not provided";
       const message = form.message.value.trim();
+      const resumeFile = form.resume.files && form.resume.files[0] ? form.resume.files[0] : null;
 
       const recipient = "v2teksol@gmail.com";
       const subjectText = "New Enquiry - v2teksol";
-      const bodyText = `Full Name: ${fullName}\nEmail: ${email}\nMobile Number: ${mobile}\n\nDescription:\n${message}`;
+      const resumeLine = resumeFile ? `Resume Selected: ${resumeFile.name}\n` : "";
+      const bodyText = `Full Name: ${fullName}\nEmail: ${email}\nMobile Number: ${mobile}\n${resumeLine}\nDescription:\n${message}`;
       const subject = encodeURIComponent(subjectText);
       const body = encodeURIComponent(bodyText);
       const deviceType = getDeviceType();
@@ -1678,28 +1750,76 @@
       const mailtoUrl = `mailto:${recipient}?subject=${subject}&body=${body}`;
       const gmailIosUrl = `googlegmail:///co?to=${recipient}&subject=${subject}&body=${body}`;
       const gmailAndroidIntent = `intent://compose?to=${recipient}&subject=${subject}&body=${body}#Intent;scheme=mailto;package=com.google.android.gm;end`;
+      const shareText = `Send this enquiry to ${recipient}\n\n${bodyText}`;
+      const supportsFileShare = Boolean(
+        resumeFile &&
+        navigator.share &&
+        navigator.canShare &&
+        navigator.canShare({ files: [resumeFile] })
+      );
+
+      if (supportsFileShare) {
+        try {
+          await navigator.share({
+            title: subjectText,
+            text: shareText,
+            files: [resumeFile]
+          });
+
+          formNote.textContent = "Resume shared. Choose Gmail or your mail app from the share sheet and send the enquiry.";
+          showMessage("Your resume and enquiry are ready to share. Pick Gmail or your preferred mail app and complete the send.");
+          form.reset();
+          resumeUploadStatus.textContent = "Select a resume to include with your enquiry. On supported mobile browsers this can be shared as an attachment through Gmail or your mail app.";
+          return;
+        } catch (error) {
+          if (error && error.name === "AbortError") {
+            formNote.textContent = "Share cancelled. You can try again or submit without attaching the resume.";
+            showMessage("Resume sharing was cancelled. You can choose the file again and retry.");
+            return;
+          }
+        }
+      }
 
       if (deviceType === "android") {
-        formNote.textContent = "Opening Gmail app or your mobile mail app...";
-        showMessage("Trying to open Gmail on your phone. If Gmail is unavailable, your default mail app should open.");
+        formNote.textContent = resumeFile
+          ? "Opening your mail app. Please attach the selected resume manually if your browser does not show a share sheet."
+          : "Opening Gmail app or your mobile mail app...";
+        showMessage(
+          resumeFile
+            ? "Opening mail on your phone. If the resume is not attached automatically, please add the selected file manually before sending."
+            : "Trying to open Gmail on your phone. If Gmail is unavailable, your default mail app should open."
+        );
         window.location.href = gmailAndroidIntent;
         setTimeout(() => {
           window.location.href = mailtoUrl;
         }, 700);
       } else if (deviceType === "ios") {
-        formNote.textContent = "Opening Gmail app or your mobile mail app...";
-        showMessage("Trying to open Gmail on your phone. If Gmail is unavailable, your default mail app should open.");
+        formNote.textContent = resumeFile
+          ? "Opening your mail app. Please attach the selected resume manually if your browser does not show a share sheet."
+          : "Opening Gmail app or your mobile mail app...";
+        showMessage(
+          resumeFile
+            ? "Opening mail on your phone. If the resume is not attached automatically, please add the selected file manually before sending."
+            : "Trying to open Gmail on your phone. If Gmail is unavailable, your default mail app should open."
+        );
         window.location.href = gmailIosUrl;
         setTimeout(() => {
           window.location.href = mailtoUrl;
         }, 700);
       } else {
         window.open(gmailWebUrl, "_blank");
-        formNote.textContent = "Redirecting to Gmail compose...";
-        showMessage("A new tab has opened with your Gmail compose window. Please send the email to complete your enquiry.");
+        formNote.textContent = resumeFile
+          ? "Gmail compose opened. Please attach the selected resume manually before sending."
+          : "Redirecting to Gmail compose...";
+        showMessage(
+          resumeFile
+            ? "A new Gmail compose tab has opened. Please attach the selected resume manually, then send your enquiry."
+            : "A new tab has opened with your Gmail compose window. Please send the email to complete your enquiry."
+        );
       }
 
       form.reset();
+      resumeUploadStatus.textContent = "Select a resume to include with your enquiry. On supported mobile browsers this can be shared as an attachment through Gmail or your mail app.";
     }
   </script>
 </body>
