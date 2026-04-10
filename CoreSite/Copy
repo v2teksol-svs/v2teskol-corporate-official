@@ -325,21 +325,6 @@
       transform: translateY(-2px);
     }
 
-    .job-highlight {
-      background: linear-gradient(135deg, #2dd4bf 0%, #06b6d4 100%) !important;
-      color: #042f2e !important;
-      border: none !important;
-      font-weight: 800 !important;
-      box-shadow: 0 4px 15px rgba(45, 212, 191, 0.3);
-      animation: glow-pulse 1.5s infinite;
-    }
-
-    @keyframes glow-pulse {
-      0% { box-shadow: 0 0 0 0 rgba(45, 212, 191, 0.7); }
-      70% { box-shadow: 0 0 0 15px rgba(45, 212, 191, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(216, 236, 255, 0); }
-    }
-
     .jobs-container {
       margin-top: 24px;
       padding: 20px;
@@ -1077,18 +1062,15 @@
         <div class="placement-support-item">Resume Building</div>
         <div class="placement-support-item">interview Preperation</div>
         <div class="placement-support-item">Technical Workshops</div>
-        <div class="placement-support-item clickable job-highlight" onclick="toggleJobsList()">
-          <span style="display: inline-block; width: 8px; height: 8px; background: #ff3b3b; border-radius: 50%; margin-right: 8px;"></span>
-          Open Positions (Click to View)
-        </div>
+        <div class="placement-support-item clickable" onclick="toggleJobsList()">Open Positions (Click to View)</div>
       </div>
 
       <div id="jobsList" class="jobs-container">
         <h4>Current Job Openings</h4>
         <ul style="margin: 15px 0 20px 20px; color: var(--muted-text); line-height: 1.8;">
-          <li>Data Engineer (AWS), Medallion Framework is must, 3+ Years (2 weeks closure)</li>
-          <li>Production Support - Freshers / 0-1 Year Experience (1 week Closure)</li>
-          
+          <li>Cloud Support Associate (Azure/AWS) - Freshers</li>
+          <li>Junior Systems Administrator - 0-1 Year Experience</li>
+          <li>Technical Trainee - Modern Workspace Solutions</li>
         </ul>
         <button class="cta-btn" onclick="openContactDetails()">Enquire Now for More Details</button>
       </div>
