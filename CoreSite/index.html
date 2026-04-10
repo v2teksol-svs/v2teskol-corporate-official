@@ -1645,6 +1645,20 @@
       }
     }
 
+    function getDeviceType() {
+      const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+      if (/android/i.test(userAgent)) {
+        return "android";
+      }
+
+      if (/iPad|iPhone|iPod/.test(userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1)) {
+        return "ios";
+      }
+
+      return "desktop";
+    }
+
     function submitEnquiry(event) {
       event.preventDefault();
       const form = event.target;
@@ -1653,18 +1667,38 @@
       const mobile = form.mobile.value.trim() || "Not provided";
       const message = form.message.value.trim();
 
-      const subject = encodeURIComponent("New Enquiry - v2teksol");
+      const recipient = "v2teksol@gmail.com";
+      const subjectText = "New Enquiry - v2teksol";
       const bodyText = `Full Name: ${fullName}\nEmail: ${email}\nMobile Number: ${mobile}\n\nDescription:\n${message}`;
+      const subject = encodeURIComponent(subjectText);
       const body = encodeURIComponent(bodyText);
+      const deviceType = getDeviceType();
 
-      // Construct the Gmail Compose URL
-      const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=v2teksol@gmail.com&su=${subject}&body=${body}`;
+      const gmailWebUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${recipient}&su=${subject}&body=${body}`;
+      const mailtoUrl = `mailto:${recipient}?subject=${subject}&body=${body}`;
+      const gmailIosUrl = `googlegmail:///co?to=${recipient}&subject=${subject}&body=${body}`;
+      const gmailAndroidIntent = `intent://compose?to=${recipient}&subject=${subject}&body=${body}#Intent;scheme=mailto;package=com.google.android.gm;end`;
 
-      // Open the compose window in a new tab
-      window.open(gmailUrl, '_blank');
+      if (deviceType === "android") {
+        formNote.textContent = "Opening Gmail app or your mobile mail app...";
+        showMessage("Trying to open Gmail on your phone. If Gmail is unavailable, your default mail app should open.");
+        window.location.href = gmailAndroidIntent;
+        setTimeout(() => {
+          window.location.href = mailtoUrl;
+        }, 700);
+      } else if (deviceType === "ios") {
+        formNote.textContent = "Opening Gmail app or your mobile mail app...";
+        showMessage("Trying to open Gmail on your phone. If Gmail is unavailable, your default mail app should open.");
+        window.location.href = gmailIosUrl;
+        setTimeout(() => {
+          window.location.href = mailtoUrl;
+        }, 700);
+      } else {
+        window.open(gmailWebUrl, "_blank");
+        formNote.textContent = "Redirecting to Gmail compose...";
+        showMessage("A new tab has opened with your Gmail compose window. Please send the email to complete your enquiry.");
+      }
 
-      formNote.textContent = "Redirecting to Gmail compose...";
-      showMessage("A new tab has opened with your Gmail compose window. Please send the email to complete your enquiry.");
       form.reset();
     }
   </script>
