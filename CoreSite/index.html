@@ -1427,7 +1427,7 @@
               />
             </div>
             <div class="resume-upload-meta" id="resumeUploadStatus">
-              Select a resume to include with your enquiry. On supported mobile browsers this can be shared as an attachment through Gmail or your mail app.
+              Select a resume to include with your enquiry. When you submit, Gmail will open directly. If the file is not attached automatically, please add it inside Gmail before sending.
             </div>
           </div>
 
@@ -1704,7 +1704,7 @@
       const file = event.target.files && event.target.files[0];
 
       if (!file) {
-        resumeUploadStatus.textContent = "Select a resume to include with your enquiry. On supported mobile browsers this can be shared as an attachment through Gmail or your mail app.";
+        resumeUploadStatus.textContent = "Select a resume to include with your enquiry. When you submit, Gmail will open directly. If the file is not attached automatically, please add it inside Gmail before sending.";
         return;
       }
 
@@ -1729,7 +1729,7 @@
       return "desktop";
     }
 
-    async function submitEnquiry(event) {
+    function submitEnquiry(event) {
       event.preventDefault();
       const form = event.target;
       const fullName = form.fullName.value.trim();
@@ -1747,64 +1747,34 @@
       const deviceType = getDeviceType();
 
       const gmailWebUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${recipient}&su=${subject}&body=${body}`;
-      const mailtoUrl = `mailto:${recipient}?subject=${subject}&body=${body}`;
       const gmailIosUrl = `googlegmail:///co?to=${recipient}&subject=${subject}&body=${body}`;
       const gmailAndroidIntent = `intent://compose?to=${recipient}&subject=${subject}&body=${body}#Intent;scheme=mailto;package=com.google.android.gm;end`;
-      const shareText = `Send this enquiry to ${recipient}\n\n${bodyText}`;
-      const supportsFileShare = Boolean(
-        resumeFile &&
-        navigator.share &&
-        navigator.canShare &&
-        navigator.canShare({ files: [resumeFile] })
-      );
-
-      if (supportsFileShare) {
-        try {
-          await navigator.share({
-            title: subjectText,
-            text: shareText,
-            files: [resumeFile]
-          });
-
-          formNote.textContent = "Resume shared. Choose Gmail or your mail app from the share sheet and send the enquiry.";
-          showMessage("Your resume and enquiry are ready to share. Pick Gmail or your preferred mail app and complete the send.");
-          form.reset();
-          resumeUploadStatus.textContent = "Select a resume to include with your enquiry. On supported mobile browsers this can be shared as an attachment through Gmail or your mail app.";
-          return;
-        } catch (error) {
-          if (error && error.name === "AbortError") {
-            formNote.textContent = "Share cancelled. You can try again or submit without attaching the resume.";
-            showMessage("Resume sharing was cancelled. You can choose the file again and retry.");
-            return;
-          }
-        }
-      }
 
       if (deviceType === "android") {
         formNote.textContent = resumeFile
-          ? "Opening your mail app. Please attach the selected resume manually if your browser does not show a share sheet."
-          : "Opening Gmail app or your mobile mail app...";
+          ? "Opening Gmail. Please attach the selected resume manually inside Gmail before sending."
+          : "Opening Gmail...";
         showMessage(
           resumeFile
-            ? "Opening mail on your phone. If the resume is not attached automatically, please add the selected file manually before sending."
-            : "Trying to open Gmail on your phone. If Gmail is unavailable, your default mail app should open."
+            ? "Opening Gmail on your phone. Mobile browsers cannot reliably attach the local resume automatically, so please add the selected file inside Gmail before sending."
+            : "Trying to open Gmail on your phone."
         );
         window.location.href = gmailAndroidIntent;
         setTimeout(() => {
-          window.location.href = mailtoUrl;
+          window.location.href = gmailWebUrl;
         }, 700);
       } else if (deviceType === "ios") {
         formNote.textContent = resumeFile
-          ? "Opening your mail app. Please attach the selected resume manually if your browser does not show a share sheet."
-          : "Opening Gmail app or your mobile mail app...";
+          ? "Opening Gmail. Please attach the selected resume manually inside Gmail before sending."
+          : "Opening Gmail...";
         showMessage(
           resumeFile
-            ? "Opening mail on your phone. If the resume is not attached automatically, please add the selected file manually before sending."
-            : "Trying to open Gmail on your phone. If Gmail is unavailable, your default mail app should open."
+            ? "Opening Gmail on your phone. Mobile browsers cannot reliably attach the local resume automatically, so please add the selected file inside Gmail before sending."
+            : "Trying to open Gmail on your phone."
         );
         window.location.href = gmailIosUrl;
         setTimeout(() => {
-          window.location.href = mailtoUrl;
+          window.location.href = gmailWebUrl;
         }, 700);
       } else {
         window.open(gmailWebUrl, "_blank");
@@ -1819,7 +1789,7 @@
       }
 
       form.reset();
-      resumeUploadStatus.textContent = "Select a resume to include with your enquiry. On supported mobile browsers this can be shared as an attachment through Gmail or your mail app.";
+      resumeUploadStatus.textContent = "Select a resume to include with your enquiry. When you submit, Gmail will open directly. If the file is not attached automatically, please add it inside Gmail before sending.";
     }
   </script>
 </body>
