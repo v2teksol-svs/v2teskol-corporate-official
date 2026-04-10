@@ -1451,7 +1451,7 @@
               />
             </div>
             <div class="resume-upload-meta" id="resumeUploadStatus">
-              Select a resume to include with your enquiry. When you submit, Gmail will open directly. If the file is not attached automatically, please add it inside Gmail before sending.
+              Select a resume to include with your enquiry. On supported mobile browsers you can share it with the enquiry as an attachment. Desktop will still open Gmail directly.
             </div>
           </div>
 
@@ -1728,7 +1728,7 @@
       const file = event.target.files && event.target.files[0];
 
       if (!file) {
-        resumeUploadStatus.textContent = "Select a resume to include with your enquiry. When you submit, Gmail will open directly. If the file is not attached automatically, please add it inside Gmail before sending.";
+        resumeUploadStatus.textContent = "Select a resume to include with your enquiry. On supported mobile browsers you can share it with the enquiry as an attachment. Desktop will still open Gmail directly.";
         return;
       }
 
@@ -1753,7 +1753,7 @@
       return "desktop";
     }
 
-    function submitEnquiry(event) {
+    async function submitEnquiry(event) {
       event.preventDefault();
       const form = event.target;
       const fullName = form.fullName.value.trim();
@@ -1773,6 +1773,36 @@
       const gmailWebUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${recipient}&su=${subject}&body=${body}`;
       const gmailIosUrl = `googlegmail:///co?to=${recipient}&subject=${subject}&body=${body}`;
       const gmailAndroidIntent = `intent://compose?to=${recipient}&subject=${subject}&body=${body}#Intent;scheme=mailto;package=com.google.android.gm;end`;
+      const shareText = `Send this enquiry to ${recipient}\n\n${bodyText}`;
+      const supportsMobileFileShare = Boolean(
+        deviceType !== "desktop" &&
+        resumeFile &&
+        navigator.share &&
+        navigator.canShare &&
+        navigator.canShare({ files: [resumeFile] })
+      );
+
+      if (supportsMobileFileShare) {
+        try {
+          await navigator.share({
+            title: subjectText,
+            text: shareText,
+            files: [resumeFile]
+          });
+
+          formNote.textContent = "Resume shared. Choose Gmail from the mobile share options and send the enquiry with the attachment.";
+          showMessage("Your phone's share options are ready. Choose Gmail to send the enquiry with the selected resume attached.");
+          form.reset();
+          resumeUploadStatus.textContent = "Select a resume to include with your enquiry. On supported mobile browsers you can share it with the enquiry as an attachment. Desktop will still open Gmail directly.";
+          return;
+        } catch (error) {
+          if (error && error.name === "AbortError") {
+            formNote.textContent = "Share cancelled. You can try again or continue without attaching the resume.";
+            showMessage("Resume sharing was cancelled. You can choose the file again and retry.");
+            return;
+          }
+        }
+      }
 
       if (deviceType === "android") {
         formNote.textContent = resumeFile
@@ -1813,7 +1843,7 @@
       }
 
       form.reset();
-      resumeUploadStatus.textContent = "Select a resume to include with your enquiry. When you submit, Gmail will open directly. If the file is not attached automatically, please add it inside Gmail before sending.";
+      resumeUploadStatus.textContent = "Select a resume to include with your enquiry. On supported mobile browsers you can share it with the enquiry as an attachment. Desktop will still open Gmail directly.";
     }
   </script>
 </body>
