@@ -350,6 +350,16 @@
       animation: fadeUp 0.3s ease;
     }
 
+    .resumes-container {
+      margin-top: 24px;
+      padding: 20px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px dashed var(--card-border);
+      display: none;
+      animation: fadeUp 0.3s ease;
+    }
+
     .contact-list {
       display: grid;
       gap: 14px;
@@ -1074,13 +1084,23 @@
         communication practice, and confidence-building for job opportunities.
       </p>
       <div class="placement-support-list">
-        <div class="placement-support-item">Resume Building</div>
-        <div class="placement-support-item">interview Preperation</div>
+        <div class="placement-support-item clickable" onclick="toggleResumesList()">Resume Building (View Sample ATS Resumes)</div>
+        <div class="placement-support-item">Interview Preparation</div>
         <div class="placement-support-item">Technical Workshops</div>
         <div class="placement-support-item clickable job-highlight" onclick="toggleJobsList()">
           <span style="display: inline-block; width: 8px; height: 8px; background: #ff3b3b; border-radius: 50%; margin-right: 8px;"></span>
           Open Positions (Click to View)
         </div>
+      </div>
+
+      <div id="resumesList" class="resumes-container">
+        <h4>Sample ATS Resumes</h4>
+        <p style="color: var(--muted-text); font-size: 0.9rem; margin-bottom: 10px;">Select a template to view or download. These are optimized for Applicant Tracking Systems.</p>
+        <ul style="margin: 15px 0 20px 20px; color: var(--muted-text); line-height: 1.8;">
+          <li><a href="https://raw.githubusercontent.com/v2teksol-svs/v2teskol-corporate-official/development/sample-resumes/Cloud%20Engineer%20ATS%20Template.pdf" class="mentor-link" target="_blank">Cloud Engineer ATS Template.pdf</a></li>
+          <li><a href="https://raw.githubusercontent.com/v2teksol-svs/v2teskol-corporate-official/development/sample-resumes/DevOps%20Specialist%20ATS%20Template.pdf" class="mentor-link" target="_blank">DevOps Specialist ATS Template.pdf</a></li>
+          <li><a href="https://raw.githubusercontent.com/v2teksol-svs/v2teskol-corporate-official/development/sample-resumes/Data%20Engineer%20ATS%20Template.pdf" class="mentor-link" target="_blank">Data Engineer ATS Template.pdf</a></li>
+        </ul>
       </div>
 
       <div id="jobsList" class="jobs-container">
@@ -1273,6 +1293,17 @@
       if (!isVisible) {
         jobsList.scrollIntoView({ behavior: "smooth", block: "nearest" });
         showMessage("Viewing current job openings. Click Enquire Now to contact us via WhatsApp.");
+      }
+    }
+
+    function toggleResumesList() {
+      const resumesList = document.getElementById("resumesList");
+      if (resumesList.style.display === "block") {
+        resumesList.style.display = "none";
+      } else {
+        resumesList.style.display = "block";
+        resumesList.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        showMessage("Viewing sample ATS resumes. These templates help pass automated HR filters.");
       }
     }
 
