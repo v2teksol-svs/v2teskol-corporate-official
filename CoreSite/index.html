@@ -1102,8 +1102,8 @@
           <li><a href="https://raw.githubusercontent.com/v2teksol-svs/v2teskol-corporate-official/development/sample-resumes/entry-level-data-scientist.png" class="mentor-link" target="_blank">Data Scientist ATS Template.pdf</a></li>
         </ul>
         <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--card-border); display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
-          <p style="margin-bottom: 0; color: var(--text); font-size: 0.95rem;">Would you like to have a custom & Professional resume Assistance?</p>
-          <button class="cta-btn" onclick="openContactDetails()">Buy ATS Resume</button>
+          <p style="margin-bottom: 0; color: var(--text); font-size: 0.95rem;">Are you looking for a custom & Professional Resume Assistance?</p>
+          <button class="cta-btn" onclick="openContactDetails()">Buy Your ATS Resume</button>
         </div>
       </div>
 
@@ -1114,7 +1114,7 @@
           <li>Production Support - Freshers / 0-1 Year Experience (1 week Closure)</li>
           
         </ul>
-        <button class="cta-btn" onclick="openContactDetails()">Enquire Now for More Details</button>
+        <button class="cta-btn" onclick="openEnquiryForm()">Enquire Now for More Details</button>
       </div>
 
       <div class="cta-row">
@@ -1279,6 +1279,7 @@
       placementPanel.classList.remove("active");
       mentorsPanel.classList.remove("active");
       contactPanel.classList.remove("active");
+      trainingPanel.classList.add("active");
       enquiryPanel.classList.add("active");
       enquiryPanel.scrollIntoView({ behavior: "smooth", block: "start" });
       showMessage("The enquiry form is now open. Please enter your full name, email, mobile number (optional), and message.");
