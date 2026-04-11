@@ -1019,6 +1019,85 @@
       font-size: 0.95rem;
     }
 
+    .media-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 30;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: rgba(37, 51, 95, 0.46);
+      backdrop-filter: blur(12px);
+    }
+
+    .media-modal.active {
+      display: flex;
+      animation: fadeUp 0.25s ease;
+    }
+
+    .media-modal-dialog {
+      width: min(1100px, 100%);
+      max-height: 88vh;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      overflow: hidden;
+      border-radius: 30px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(237, 232, 245, 0.92));
+      border: 1px solid rgba(255, 255, 255, 0.84);
+      box-shadow: var(--shadow-strong);
+    }
+
+    .media-modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 20px 22px 16px;
+      border-bottom: 1px solid rgba(61, 82, 160, 0.1);
+    }
+
+    .media-modal-header h4 {
+      margin: 0;
+      color: var(--ink);
+      font-family: "Outfit", sans-serif;
+      font-size: 1.6rem;
+      font-weight: 500;
+    }
+
+    .media-modal-header p {
+      margin-top: 6px;
+      color: var(--ink-soft);
+      font-size: 0.92rem;
+      line-height: 1.6;
+    }
+
+    .media-modal-close {
+      min-width: 44px;
+      min-height: 44px;
+      padding: 0;
+      border-radius: 999px;
+      border: 1px solid rgba(61, 82, 160, 0.12);
+      background: rgba(255, 255, 255, 0.72);
+      color: var(--deep);
+      font-size: 1.3rem;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .media-modal-body {
+      min-height: min(70vh, 760px);
+      background: rgba(255, 255, 255, 0.72);
+    }
+
+    .media-modal-frame {
+      width: 100%;
+      height: 100%;
+      min-height: min(70vh, 760px);
+      border: 0;
+      background: #ffffff;
+    }
+
     @keyframes fadeUp {
       from {
         opacity: 0;
@@ -1310,14 +1389,13 @@
             alt="Cloud computing illustration"
           />
           <p>Computer fundamentals, operating systems, Networking, and essential communications with systems.</p>
-          <a
+          <button
             class="course-link training-item-action"
-            href="https://drive.google.com/drive/folders/1UVhvrg2bBgSKei3WzYdniUKo89j7OgQf?usp=sharing"
-            target="_blank"
-            rel="noopener noreferrer"
+            type="button"
+            onclick="openComputersBasicsLibrary()"
           >
-            Click Here
-          </a>
+            Watch Videos
+          </button>
         </div>
         <div class="training-item training-item-compact">
           <div class="training-heading-with-logo">
@@ -1596,6 +1674,30 @@
         </div>
       </div>
     </section>
+
+    <div class="media-modal" id="mediaModal" role="dialog" aria-modal="true" aria-labelledby="mediaModalTitle" onclick="handleMediaModalBackdrop(event)">
+      <div class="media-modal-dialog">
+        <div class="media-modal-header">
+          <div>
+            <h4 id="mediaModalTitle">Computers & Basics Video Library</h4>
+            <p>Browse and play the training videos here without leaving the website. This uses an embedded Google Drive folder view behind the scenes.</p>
+          </div>
+          <button class="media-modal-close" type="button" aria-label="Close video library" onclick="closeMediaModal()">
+            ×
+          </button>
+        </div>
+        <div class="media-modal-body">
+          <iframe
+            class="media-modal-frame"
+            id="mediaModalFrame"
+            title="Computers and Basics video library"
+            loading="lazy"
+            allow="autoplay; fullscreen"
+            referrerpolicy="strict-origin-when-cross-origin"
+          ></iframe>
+        </div>
+      </div>
+    </div>
   </div>
 
   <script>
@@ -1609,6 +1711,9 @@
     const formNote = document.getElementById("formNote");
     const resumeUpload = document.getElementById("resumeUpload");
     const resumeUploadStatus = document.getElementById("resumeUploadStatus");
+    const mediaModal = document.getElementById("mediaModal");
+    const mediaModalFrame = document.getElementById("mediaModalFrame");
+    const computersBasicsLibraryUrl = "https://drive.google.com/embeddedfolderview?id=1UVhvrg2bBgSKei3WzYdniUKo89j7OgQf#list";
 
     function showMessage(text) {
       messageBox.textContent = text;
@@ -1697,6 +1802,32 @@
       enquiryPanel.classList.remove("active");
       showMessage("The enquiry form has been closed.");
     }
+
+    function openComputersBasicsLibrary() {
+      mediaModalFrame.src = computersBasicsLibraryUrl;
+      mediaModal.classList.add("active");
+      document.body.style.overflow = "hidden";
+      showMessage("Computers & Basics videos are now open inside the website.");
+    }
+
+    function closeMediaModal() {
+      mediaModal.classList.remove("active");
+      mediaModalFrame.src = "";
+      document.body.style.overflow = "";
+      showMessage("Video library closed.");
+    }
+
+    function handleMediaModalBackdrop(event) {
+      if (event.target === mediaModal) {
+        closeMediaModal();
+      }
+    }
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && mediaModal.classList.contains("active")) {
+        closeMediaModal();
+      }
+    });
 
     function toggleJobsList() {
       const jobsList = document.getElementById("jobsList");
