@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="3.5in" height="2in" viewBox="0 0 1050 600" role="img" aria-labelledby="title desc">
+  <title id="title">V2TEKSOL Printable Business Card</title>
+  <desc id="desc">Printable business card for V2TEKSOL with a soft pale background and blue brand text.</desc>
+  <defs>
+    <linearGradient id="cardBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f6f3fb"/>
+      <stop offset="48%" stop-color="#efedf7"/>
+      <stop offset="100%" stop-color="#e3e9f7"/>
+    </linearGradient>
+    <linearGradient id="accentGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#dce5ff" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#7091e6" stop-opacity="0.9"/>
+    </linearGradient>
+    <linearGradient id="cornerStroke" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.82"/>
+      <stop offset="100%" stop-color="#dbe2f5" stop-opacity="0.58"/>
+    </linearGradient>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="18" stdDeviation="22" flood-color="#7091e6" flood-opacity="0.24"/>
+    </filter>
+    <filter id="softBlur" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="18"/>
+    </filter>
+  </defs>
+
+  <rect width="1050" height="600" rx="42" fill="url(#cardBg)"/>
+
+  <path
+    d="M606 34 H997"
+    fill="none"
+    stroke="url(#cornerStroke)"
+    stroke-width="3"
+    stroke-linecap="round"
+  />
+  <path
+    d="M604 34
+       C 665 34, 692 34, 716 58
+       C 740 82, 740 108, 740 168
+       L 740 340"
+    fill="none"
+    stroke="url(#cornerStroke)"
+    stroke-width="3"
+    stroke-linecap="round"
+  />
+
+  <circle cx="905" cy="400" r="60" fill="#7091e6" opacity="0.16" filter="url(#softBlur)"/>
+  <path
+    d="M905 355
+       C 932 355, 956 378, 956 406
+       C 956 434, 933 457, 905 457
+       C 877 457, 854 434, 854 406
+       C 854 393, 860 383, 869 374
+       C 880 364, 889 355, 905 355 Z"
+    fill="url(#accentGlow)"
+    filter="url(#softShadow)"
+  />
+
+  <g transform="translate(92 108)">
+    <text
+      x="0"
+      y="0"
+      fill="#7091e6"
+      font-family="'Segoe UI', Arial, sans-serif"
+      font-size="28"
+      font-weight="700"
+      letter-spacing="7"
+      text-transform="uppercase"
+    >CAREER GROWTH PARTNER</text>
+
+    <text
+      x="0"
+      y="68"
+      fill="#6e7fae"
+      font-family="'Segoe UI', Arial, sans-serif"
+      font-size="30"
+      font-weight="500"
+    >Practical learning. Real guidance. Better outcomes.</text>
+
+    <text
+      x="0"
+      y="186"
+      fill="#3d52a0"
+      font-family="'Segoe UI', Arial, sans-serif"
+      font-size="104"
+      font-weight="800"
+      letter-spacing="3"
+    >V2TEKSOL</text>
+
+    <g transform="translate(0 282)">
+      <rect x="0" y="0" width="568" height="138" rx="28" fill="#ffffff" fill-opacity="0.46" stroke="#d7deef" stroke-width="2"/>
+      <text
+        x="34"
+        y="54"
+        fill="#7091e6"
+        font-family="'Segoe UI', Arial, sans-serif"
+        font-size="22"
+        font-weight="700"
+        letter-spacing="4"
+      >EMAIL</text>
+      <text
+        x="34"
+        y="94"
+        fill="#3d52a0"
+        font-family="'Segoe UI', Arial, sans-serif"
+        font-size="34"
+        font-weight="700"
+      >v2teksol@gmail.com</text>
+
+      <text
+        x="34"
+        y="132"
+        fill="#7091e6"
+        font-family="'Segoe UI', Arial, sans-serif"
+        font-size="22"
+        font-weight="700"
+        letter-spacing="4"
+      >PHONE</text>
+      <text
+        x="190"
+        y="132"
+        fill="#3d52a0"
+        font-family="'Segoe UI', Arial, sans-serif"
+        font-size="32"
+        font-weight="700"
+      >+918309396620</text>
+    </g>
+  </g>
+</svg>

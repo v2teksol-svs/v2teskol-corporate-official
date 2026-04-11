@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="3.5in" height="2in" viewBox="0 0 1050 600" role="img" aria-labelledby="title desc">
+  <title id="title">V2TEKSOL Business Card Front</title>
+  <desc id="desc">Front side of the V2TEKSOL business card with soft gradient background, logo, brand message, email and phone number.</desc>
+  <defs>
+    <linearGradient id="bgFront" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f5f1fa"/>
+      <stop offset="52%" stop-color="#eeedf7"/>
+      <stop offset="100%" stop-color="#dee5f6"/>
+    </linearGradient>
+    <linearGradient id="panelFront" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.84"/>
+      <stop offset="100%" stop-color="#eef2fb" stop-opacity="0.72"/>
+    </linearGradient>
+    <linearGradient id="chipFront" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7091e6"/>
+      <stop offset="100%" stop-color="#3d52a0"/>
+    </linearGradient>
+    <filter id="shadowFront" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="20" stdDeviation="24" flood-color="#7091e6" flood-opacity="0.18"/>
+    </filter>
+  </defs>
+
+  <rect width="1050" height="600" rx="42" fill="url(#bgFront)"/>
+  <path d="M604 34 H997" fill="none" stroke="#fbfbff" stroke-opacity="0.8" stroke-width="3"/>
+  <path d="M604 34 C664 34 690 34 714 58 C738 82 738 108 738 167 L738 325" fill="none" stroke="#fbfbff" stroke-opacity="0.8" stroke-width="3"/>
+
+  <circle cx="908" cy="408" r="56" fill="#7091e6" opacity="0.14"/>
+  <path d="M908 366 C935 366 957 388 957 414 C957 441 935 463 908 463 C881 463 859 441 859 414 C859 401 865 390 873 381 C883 372 891 366 908 366 Z" fill="#7091e6" opacity="0.88" filter="url(#shadowFront)"/>
+
+  <g transform="translate(82 74)">
+    <rect x="0" y="0" width="886" height="452" rx="34" fill="url(#panelFront)" stroke="#ffffff" stroke-opacity="0.82" filter="url(#shadowFront)"/>
+
+    <g transform="translate(42 44)">
+      <rect x="0" y="0" width="334" height="42" rx="21" fill="url(#chipFront)"/>
+      <text x="167" y="28" fill="#ffffff" font-family="'Segoe UI', Arial, sans-serif" font-size="15" font-weight="700" letter-spacing="2.6" text-anchor="middle">CAREER GROWTH PARTNER</text>
+
+      <text x="0" y="92" fill="#7091e6" font-family="'Segoe UI', Arial, sans-serif" font-size="40" font-weight="700">Practical learning.</text>
+      <text x="0" y="142" fill="#7091e6" font-family="'Segoe UI', Arial, sans-serif" font-size="40" font-weight="700">Real guidance.</text>
+      <text x="0" y="186" fill="#6b7daf" font-family="'Segoe UI', Arial, sans-serif" font-size="34" font-weight="600">Better outcomes.</text>
+      <text x="0" y="308" fill="#3d52a0" font-family="'Segoe UI', Arial, sans-serif" font-size="112" font-weight="800" letter-spacing="2">V2TEKSOL</text>
+
+      <g transform="translate(0 306)">
+        <rect x="0" y="0" width="500" height="80" rx="20" fill="#ffffff" fill-opacity="0.66" stroke="#d8e0f2"/>
+        <text x="28" y="34" fill="#3d52a0" font-family="'Segoe UI', Arial, sans-serif" font-size="29" font-weight="700">v2teksol@gmail.com</text>
+        <text x="28" y="64" fill="#7091e6" font-family="'Segoe UI', Arial, sans-serif" font-size="28" font-weight="700">+918309396620</text>
+      </g>
+    </g>
+
+    <g transform="translate(680 88)">
+      <rect x="0" y="0" width="158" height="274" rx="28" fill="#ffffff" fill-opacity="0.76" stroke="#edf1fb"/>
+      <image href="./assets/Upward%20arrow%20and%20cloud%20logo.png" x="15" y="24" width="128" height="128" preserveAspectRatio="xMidYMid meet"/>
+      <text x="79" y="196" fill="#3d52a0" font-family="'Segoe UI', Arial, sans-serif" font-size="24" font-weight="800" letter-spacing="1.5" text-anchor="middle">V2</text>
+      <text x="79" y="228" fill="#3d52a0" font-family="'Segoe UI', Arial, sans-serif" font-size="24" font-weight="800" letter-spacing="1.5" text-anchor="middle">TEKSOL</text>
+      <text x="79" y="258" fill="#7091e6" font-family="'Segoe UI', Arial, sans-serif" font-size="14" font-weight="700" letter-spacing="2" text-anchor="middle">REAL GROWTH</text>
+    </g>
+  </g>
+</svg>
