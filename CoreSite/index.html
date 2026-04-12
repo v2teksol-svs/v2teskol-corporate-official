@@ -1189,6 +1189,12 @@
       50% { transform: translateY(-12px) scale(1.03); }
     }
 
+    @keyframes mentor-pulse {
+      0% { box-shadow: 0 0 0 0 rgba(61, 82, 160, 0.4); }
+      70% { box-shadow: 0 0 0 15px rgba(61, 82, 160, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(61, 82, 160, 0); }
+    }
+
     @media (max-width: 900px) {
       .hero-grid {
         grid-template-columns: 1fr;
@@ -1406,7 +1412,7 @@
       </p>
       <div class="blog-actions" aria-label="Blog categories">
         <button class="cta-btn" type="button" onclick="toggleTechBlogs()">Technology</button>
-        <button class="cta-btn secondary" type="button" onclick="showMessage('Customer Success blogs will be available here.')">Customer Success</button>
+        <button class="cta-btn" type="button" onclick="toggleSuccessBlogs()">Customer Success</button>
       </div>
 
       <div id="techBlogsList" class="jobs-container">
@@ -1415,6 +1421,19 @@
           <p style="margin: 0; font-size: 0.95rem; font-weight: 500;">The Zscaler Security & Remote desktop Connection failure : Error Code 23005</p>
           <a class="mentor-link" href="https://www.linkedin.com/posts/sathish-kumar-8a005434_microsoft-remote-desktop-gateway-zscaler-ugcPost-7354567202030694401-pHkl?utm_source=share&utm_medium=member_desktop&rcm=ACoAAAcgNPgBo0ce6DGm8i9097dUhF64Cek0_Zk" target="_blank" rel="noopener noreferrer">
             Microsoft Remote Desktop Gateway + Zscaler Security
+          </a>
+        </div>
+      </div>
+
+      <div id="successBlogsList" class="jobs-container">
+        <h4>Customer Success Stories</h4>
+        <div class="contact-item" style="flex-direction: column; align-items: flex-start; gap: 12px; margin-top: 12px;">
+          <p style="margin: 0; font-size: 1rem; font-weight: 600; color: var(--deep);">Empowering Next-Gen Professionals: My Mentorship Journey with Great Learning</p>
+          <p style="margin: 0; font-size: 0.92rem; line-height: 1.6; color: var(--ink-soft);">
+            Partnering as a Guru with Great Learning has been a rewarding experience in bridging the gap between academic learning and industry excellence. By sharing my multi-cloud architecture expertise, I’ve had the privilege of guiding aspiring professionals through practical, real-world challenges, helping them build the confidence and skills needed to thrive in today's competitive technology landscape.
+          </p>
+          <a class="cta-btn" href="https://olympus1.mygreatlearning.com/gurus/sathish-kumar-puppalla?card=96888" target="_blank" rel="noopener noreferrer" style="text-decoration: none; animation: mentor-pulse 2s infinite; margin-top: 10px;">
+            View My Mentorship Profile at Great Learning
           </a>
         </div>
       </div>
@@ -1943,6 +1962,17 @@
       if (!isVisible) {
         list.scrollIntoView({ behavior: "smooth", block: "nearest" });
         showMessage("Viewing Technology blogs.");
+      }
+    }
+
+    function toggleSuccessBlogs() {
+      const list = document.getElementById("successBlogsList");
+      const isVisible = list.style.display === "block";
+      
+      list.style.display = isVisible ? "none" : "block";
+      if (!isVisible) {
+        list.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        showMessage("Viewing Customer Success stories.");
       }
     }
 
