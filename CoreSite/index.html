@@ -1026,6 +1026,21 @@
       resize: vertical;
     }
 
+    .form-hint {
+      margin-top: 8px;
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: rgba(237, 232, 245, 0.72);
+      border: 1px dashed rgba(61, 82, 160, 0.16);
+      color: var(--ink-soft);
+      font-size: 0.92rem;
+      line-height: 1.6;
+    }
+
+    .form-hint strong {
+      color: var(--deep);
+    }
+
     .resume-upload {
       display: grid;
       gap: 10px;
@@ -1646,6 +1661,11 @@
           <div>
             <label for="userMessage">4. Description / Message</label>
             <textarea id="userMessage" name="message" placeholder="Write your message here" required></textarea>
+            <div class="form-hint" aria-live="polite">
+              <strong>Helpful details to include:</strong><br />
+              Enquiry Type: Training, consulting, support, etc.<br />
+              Preferred Time (with time zone): e.g. 3:00 PM IST / 9:30 AM EST
+            </div>
           </div>
 
           <div class="resume-upload">
