@@ -1560,6 +1560,7 @@
           <div class="cta-row hero-actions">
             <button class="cta-btn" type="button" onclick="openTrainingDetails()">Explore Training</button>
             <button class="cta-btn" type="button" style="background: linear-gradient(135deg, #5c83d2 0%, #943254 100%); animation: pulse-gold 2s infinite;" onclick="openPresentation('uni')">Academia Program</button>
+            <button class="cta-btn" type="button" onclick="openResumeHub()">Resume Hub</button>
             <button class="cta-btn" type="button" onclick="openPresentation('tech')">IT Consulting</button>
             <button class="cta-btn secondary" type="button" onclick="openContactDetails()">Contact Us</button>
           </div>
@@ -1864,7 +1865,7 @@
       <article
         class="card"
         tabindex="0"
-        onmouseenter="showMessage('Consultancy support for technical planning, project direction, and smart execution.')"
+        onmouseenter="showMessage('Consulting support for technical planning, project direction, and smart execution.')"
         onclick="openConsultingDetails()"
       >
         <h2>Consulting</h2>
@@ -2086,11 +2087,12 @@
                 name="resume"
                 type="file"
                 accept=".pdf,.doc,.docx,.rtf,.txt,.png,.jpg,.jpeg"
+                multiple
                 onchange="handleResumeSelection(event)"
               />
             </div>
             <div class="resume-upload-meta" id="resumeUploadStatus">
-              Select a resume to include with your enquiry. On supported mobile browsers you can share it with the enquiry as an attachment. Desktop will still open Gmail directly.
+              Select one or more resumes to include with your enquiry. On supported mobile browsers you can share them with the enquiry as attachments. Desktop will still open Gmail directly.
             </div>
           </div>
 
@@ -2198,7 +2200,7 @@
         <article class="mentor-card">
           <div class="mentor-photo">Photo</div>
           <div>
-            <h4>Pratyusha Chinthalapati</h4>
+            <h4>Nagalakshmi Puppalla</h4>
             <div class="mentor-meta">Head Of Human Resource &amp; Career Guidance</div>
             <div class="mentor-meta">Industry Experience with 10+ Years</div>
           </div>
@@ -2245,6 +2247,29 @@
         </div>
       </div>
     </section>
+
+    <div class="media-modal" id="resumeHubModal" role="dialog" aria-modal="true" aria-labelledby="resumeHubTitle" onclick="handleResumeHubBackdrop(event)">
+      <div class="media-modal-dialog" style="width: min(620px, 100%);">
+        <div class="media-modal-header">
+          <div>
+            <h4 id="resumeHubTitle">Resume Hub</h4>
+            <p>Select a resume, then open the shared Google Drive folder to upload it.</p>
+          </div>
+          <button class="media-modal-close" type="button" aria-label="Close Resume Hub" onclick="closeResumeHub()">×</button>
+        </div>
+        <div class="media-modal-body" style="min-height: auto; padding: 28px;">
+          <form id="resumeHubForm">
+            <label for="resumeHubFile" style="display: block; margin-bottom: 10px; color: var(--ink); font-weight: 700;">Choose your resume</label>
+            <input id="resumeHubFile" type="file" accept=".pdf,.doc,.docx" required style="width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 12px; background: #fff; color: var(--ink);" />
+            <p id="resumeHubStatus" style="margin: 14px 0 20px; color: var(--ink-soft); line-height: 1.6;">Accepted formats: PDF, DOC, and DOCX. The Google Drive folder will open in a new tab.</p>
+            <div class="cta-row">
+              <button class="cta-btn" type="submit">Upload to Google Drive</button>
+              <button class="cta-btn secondary" type="button" onclick="closeResumeHub()">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
 
     <div class="media-modal" id="mediaModal" role="dialog" aria-modal="true" aria-labelledby="mediaModalTitle" onclick="handleMediaModalBackdrop(event)">
       <div class="media-modal-dialog">
@@ -2468,6 +2493,10 @@
     const formNote = document.getElementById("formNote");
     const resumeUpload = document.getElementById("resumeUpload");
     const resumeUploadStatus = document.getElementById("resumeUploadStatus");
+    const resumeHubModal = document.getElementById("resumeHubModal");
+    const resumeHubForm = document.getElementById("resumeHubForm");
+    const resumeHubFile = document.getElementById("resumeHubFile");
+    const resumeHubStatus = document.getElementById("resumeHubStatus");
     const mediaModal = document.getElementById("mediaModal");
     const mediaModalFrame = document.getElementById("mediaModalFrame");
     const videoPlaylist = document.getElementById("videoPlaylist");
@@ -2519,6 +2548,35 @@
     // Presentation Logic - Tech Consulting
     let currentTechSlide = 0;
     const techSlides = document.querySelectorAll('#techModal .presentation-slide');
+
+    function openResumeHub() {
+      resumeHubForm.reset();
+      resumeHubStatus.textContent = "Accepted formats: PDF, DOC, and DOCX. The Google Drive folder will open in a new tab.";
+      resumeHubModal.classList.add("active");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeResumeHub() {
+      resumeHubModal.classList.remove("active");
+      document.body.style.overflow = "";
+    }
+
+    function handleResumeHubBackdrop(event) {
+      if (event.target === resumeHubModal) closeResumeHub();
+    }
+
+    resumeHubFile.addEventListener("change", () => {
+      const file = resumeHubFile.files[0];
+      resumeHubStatus.textContent = file
+        ? `Selected file: ${file.name}. Click Upload to Google Drive to open the shared folder.`
+        : "Accepted formats: PDF, DOC, and DOCX. The Google Drive folder will open in a new tab.";
+    });
+
+    resumeHubForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      window.open("https://drive.google.com/drive/folders/1As6Zhfnn_v0SIU5P__FBRaWU7OgDnfUV?usp=drive_link", "_blank", "noopener,noreferrer");
+      resumeHubStatus.textContent = "Google Drive opened in a new tab. Use New → File upload there to add your selected resume.";
+    });
 
     function openPresentation(type) {
       if (type === 'uni') {
@@ -2802,18 +2860,23 @@
     }
 
     function handleResumeSelection(event) {
-      const file = event.target.files && event.target.files[0];
+      const files = Array.from(event.target.files || []);
 
-      if (!file) {
-        resumeUploadStatus.textContent = "Select a resume to include with your enquiry. On supported mobile browsers you can share it with the enquiry as an attachment. Desktop will still open Gmail directly.";
+      if (!files.length) {
+        resumeUploadStatus.textContent = "Select one or more resumes to include with your enquiry. On supported mobile browsers you can share them with the enquiry as attachments. Desktop will still open Gmail directly.";
         return;
       }
 
-      resumeUploadStatus.textContent = "Selected resume: ";
-      const fileName = document.createElement("span");
-      fileName.className = "resume-upload-name";
-      fileName.textContent = file.name;
-      resumeUploadStatus.appendChild(fileName);
+      resumeUploadStatus.textContent = `Selected resumes (${files.length}): `;
+      files.forEach((file, index) => {
+        const fileName = document.createElement("span");
+        fileName.className = "resume-upload-name";
+        fileName.textContent = file.name;
+        resumeUploadStatus.appendChild(fileName);
+        if (index < files.length - 1) {
+          resumeUploadStatus.appendChild(document.createTextNode(", "));
+        }
+      });
     }
 
     function getDeviceType() {
@@ -2837,11 +2900,13 @@
       const email = form.email.value.trim();
       const mobile = form.mobile.value.trim() || "Not provided";
       const message = form.message.value.trim();
-      const resumeFile = form.resume.files && form.resume.files[0] ? form.resume.files[0] : null;
+      const resumeFiles = Array.from(form.resume.files || []);
 
       const recipient = "v2teksol@gmail.com";
       const subjectText = "New Enquiry - v2teksol";
-      const resumeLine = resumeFile ? `Resume Selected: ${resumeFile.name}\n` : "";
+      const resumeLine = resumeFiles.length
+        ? `Resumes Selected:\n${resumeFiles.map((file) => `- ${file.name}`).join("\n")}\n`
+        : "";
       const bodyText = `Full Name: ${fullName}\nEmail: ${email}\nMobile Number: ${mobile}\n${resumeLine}\nDescription:\n${message}`;
       const subject = encodeURIComponent(subjectText);
       const body = encodeURIComponent(bodyText);
@@ -2853,10 +2918,10 @@
       const shareText = `Send this enquiry to ${recipient}\n\n${bodyText}`;
       const supportsMobileFileShare = Boolean(
         deviceType !== "desktop" &&
-        resumeFile &&
+        resumeFiles.length &&
         navigator.share &&
         navigator.canShare &&
-        navigator.canShare({ files: [resumeFile] })
+        navigator.canShare({ files: resumeFiles })
       );
 
       if (supportsMobileFileShare) {
@@ -2864,13 +2929,13 @@
           await navigator.share({
             title: subjectText,
             text: shareText,
-            files: [resumeFile]
+            files: resumeFiles
           });
 
-          formNote.textContent = "Resume shared. Choose Gmail from the mobile share options and send the enquiry with the attachment.";
-          showMessage("Your phone's share options are ready. Choose Gmail to send the enquiry with the selected resume attached.");
+          formNote.textContent = "Resumes shared. Choose Gmail from the mobile share options and send the enquiry with the attachments.";
+          showMessage("Your phone's share options are ready. Choose Gmail to send the enquiry with the selected resume attachments.");
           form.reset();
-          resumeUploadStatus.textContent = "Select a resume to include with your enquiry. On supported mobile browsers you can share it with the enquiry as an attachment. Desktop will still open Gmail directly.";
+          resumeUploadStatus.textContent = "Select one or more resumes to include with your enquiry. On supported mobile browsers you can share them with the enquiry as attachments. Desktop will still open Gmail directly.";
           return;
         } catch (error) {
           if (error && error.name === "AbortError") {
@@ -2882,12 +2947,12 @@
       }
 
       if (deviceType === "android") {
-        formNote.textContent = resumeFile
-          ? "Opening Gmail. Please attach the selected resume manually inside Gmail before sending."
+        formNote.textContent = resumeFiles.length
+          ? "Opening Gmail. Please attach the selected resumes manually inside Gmail before sending."
           : "Opening Gmail...";
         showMessage(
-          resumeFile
-            ? "Opening Gmail on your phone. Mobile browsers cannot reliably attach the local resume automatically, so please add the selected file inside Gmail before sending."
+          resumeFiles.length
+            ? "Opening Gmail on your phone. Mobile browsers cannot reliably attach the selected local resumes automatically, so please add them inside Gmail before sending."
             : "Trying to open Gmail on your phone."
         );
         window.location.href = gmailAndroidIntent;
@@ -2895,12 +2960,12 @@
           window.location.href = gmailWebUrl;
         }, 700);
       } else if (deviceType === "ios") {
-        formNote.textContent = resumeFile
-          ? "Opening Gmail. Please attach the selected resume manually inside Gmail before sending."
+        formNote.textContent = resumeFiles.length
+          ? "Opening Gmail. Please attach the selected resumes manually inside Gmail before sending."
           : "Opening Gmail...";
         showMessage(
-          resumeFile
-            ? "Opening Gmail on your phone. Mobile browsers cannot reliably attach the local resume automatically, so please add the selected file inside Gmail before sending."
+          resumeFiles.length
+            ? "Opening Gmail on your phone. Mobile browsers cannot reliably attach the selected local resumes automatically, so please add them inside Gmail before sending."
             : "Trying to open Gmail on your phone."
         );
         window.location.href = gmailIosUrl;
@@ -2909,18 +2974,18 @@
         }, 700);
       } else {
         window.open(gmailWebUrl, "_blank");
-        formNote.textContent = resumeFile
-          ? "Gmail compose opened. Please attach the selected resume manually before sending."
+        formNote.textContent = resumeFiles.length
+          ? "Gmail compose opened. Please attach the selected resumes manually before sending."
           : "Redirecting to Gmail compose...";
         showMessage(
-          resumeFile
-            ? "A new Gmail compose tab has opened. Please attach the selected resume manually, then send your enquiry."
+          resumeFiles.length
+            ? "A new Gmail compose tab has opened. Please attach the selected resumes manually, then send your enquiry."
             : "A new tab has opened with your Gmail compose window. Please send the email to complete your enquiry."
         );
       }
 
       form.reset();
-      resumeUploadStatus.textContent = "Select a resume to include with your enquiry. On supported mobile browsers you can share it with the enquiry as an attachment. Desktop will still open Gmail directly.";
+      resumeUploadStatus.textContent = "Select one or more resumes to include with your enquiry. On supported mobile browsers you can share them with the enquiry as attachments. Desktop will still open Gmail directly.";
     }
   </script>
 </body>
